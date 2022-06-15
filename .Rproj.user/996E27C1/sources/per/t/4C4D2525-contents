@@ -1,0 +1,154 @@
+# Modelo 1 - TRI 1 parametro (Modelo Rasch)====
+mod1<-mirt(icer[ ,7:40],1,itemtype='Rasch')
+#mod1 - criacao de um objeto com os comandos da TRI.
+#mirt - comando da TRI, o proprio pacote.
+#icer - o nome do banco e [ ,7:40] eh a definicao dos itens a serem analisados.
+# 1 indica o numero de fatores presentes.
+#itemtype indica o tipo de modelacao que sera usado.
+
+# Arrumação do banco de dados====
+riasec_5_copia <- riasec_5
+
+# recodificar dentro da variável (1,2,3 e 4 em 0, 1, 2 e 3) 
+
+riasec_5[,1:105][riasec_5[,1:105] == 1] <- 0
+riasec_5[,1:105][riasec_5[,1:105] == 2] <- 1
+riasec_5[,1:105][riasec_5[,1:105] == 3] <- 2
+riasec_5[,1:105][riasec_5[,1:105] == 4] <- 3
+
+
+R1_itens_selecionados <-riasec_5 %>% select(14,16,23,24)
+R2_itens_selecionados <-riasec_5 %>% select(1,4,6,22)
+R3_itens_selecionados <-riasec_5 %>% select(8,9,11,12)
+R4_itens_selecionados <-riasec_5 %>% select(2,3,5) 
+
+I1_itens_selecionados <-riasec_5 %>% select(33,97,102,103)
+I2_itens_selecionados <-riasec_5 %>% select(31:34)
+
+A1_itens_selecionados <-riasec_5 %>% select(38,39,43,45)
+A2_itens_selecionados <-riasec_5 %>% select(41,42,48,49)
+
+S1_itens_selecionados <-riasec_5 %>% select(57,59,60,62)
+S2_itens_selecionados <-riasec_5 %>% select(51,53,54,55)
+S3_itens_selecionados <-riasec_5 %>% select(25:28)
+
+E1_itens_selecionados <-riasec_5 %>% select(65,68:70)
+E2_itens_selecionados <-riasec_5 %>% select(77:80)
+E3_itens_selecionados <-riasec_5 %>% select(67,75,76,104)
+E4_itens_selecionados <-riasec_5 %>% select(71:74)
+
+C1_itens_selecionados <-riasec_5 %>% select(83:86)
+C2_itens_selecionados <-riasec_5 %>% select(90:92,96)
+
+#R_itens_selecionados <- riasec_5 %>% select(14,16,23,24,1,4,6,22,8,9,11,12,2,3,5)
+#I_itens_selecionados <- riasec_5 %>% select(33,97,102,103,31:34)
+#A_itens_selecionados <- riasec_5 %>% select(38,39,43,45,41,42,48,49)
+#S_itens_selecionados <- riasec_5 %>% select(57,59,60,62,51,53,54,55,25:28)
+#E_itens_selecionados <- riasec_5 %>% select(65,68:70,77:80,67,75,76,104,71:74)
+#C_itens_selecionados <- riasec_5 %>% select(83:86,90:92,96)
+
+# TRI - Fator Realístico====
+
+tri_R1_model <- mirt(R1_itens_selecionados, #nome do objeto
+           1, # numero de fatores, no caso, e unidimensional
+           itemtype = 'rsm') #Rasch rating scale model using the 'gpcmIRT' structure (Andrich, 1978).
+kable(coef(tri_R1_model,simplify=TRUE,IRTpars=TRUE, as.data.frame=TRUE)) #kable() é uma função que melhora a tabela.
+kable(itemfit(tri_R1_model,fit_stats = 'infit'))
+
+tri_R1_model <- mirt(R1_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_R1_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_R1_model,fit_stats = 'infit'))
+
+tri_R2_model <- mirt(R2_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_R2_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_R2_model,fit_stats = 'infit'))
+
+tri_R3_model <- mirt(R3_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_R3_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_R3_model,fit_stats = 'infit'))
+plot(tri_R3_model, type="trace")
+
+tri_R4_model <- mirt(R4_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_R4_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_R4_model,fit_stats = 'infit'))
+plot(tri_R4_model, type="trace")
+
+tri_I1_model <- mirt(I1_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_I1_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_I1_model,fit_stats = 'infit'))
+
+tri_I2_model <- mirt(I2_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_I2_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_I2_model,fit_stats = 'infit'))
+plot(tri_I2_model, type="trace")
+
+tri_A1_model <- mirt(A1_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_A1_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_A1_model,fit_stats = 'infit'))
+plot(tri_A1_model, type="trace")
+
+tri_A2_model <- mirt(A2_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_A2_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_A2_model,fit_stats = 'infit'))
+plot(tri_A2_model, type="trace")
+
+tri_S1_model <- mirt(S1_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_S1_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_S1_model,fit_stats = 'infit'))
+
+tri_S2_model <- mirt(S2_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_S2_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_S2_model,fit_stats = 'infit'))
+
+tri_S3_model <- mirt(S3_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_S3_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_S3_model,fit_stats = 'infit'))
+
+tri_E1_model <- mirt(E1_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_E1_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_E1_model,fit_stats = 'infit'))
+
+tri_E2_model <- mirt(E2_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_E2_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_E2_model,fit_stats = 'infit'))
+
+tri_E3_model <- mirt(E3_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_E3_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_E3_model,fit_stats = 'infit'))
+
+tri_E4_model <- mirt(E4_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_E4_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_E4_model,fit_stats = 'infit'))
+
+tri_C1_model <- mirt(C1_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_C1_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_C1_model,fit_stats = 'infit'))
+
+tri_C2_model <- mirt(C2_itens_selecionados, 1, itemtype = 'rsm') 
+kable(coef(tri_C2_model,simplify=TRUE,IRTpars=TRUE))
+kable(itemfit(tri_C2_model,fit_stats = 'infit'))
+
+# Curva de informação x erro====
+
+plot(tri_R1_model, type="infoSE")#, which.items = 4)
+plot(tri_R2_model, type="infoSE")
+plot(tri_R3_model, type="infoSE")
+plot(tri_R4_model, type="infoSE")
+
+plot(tri_I1_model, type="infoSE")
+plot(tri_I2_model, type="infoSE")
+plot(tri_I2_model, type="trace")
+plot(tri_A1_model, type="infoSE")
+plot(tri_A2_model, type="infoSE")
+
+plot(tri_S1_model, type="infoSE")
+plot(tri_S2_model, type="infoSE")
+plot(tri_S3_model, type="infoSE")
+
+plot(tri_E1_model, type="infoSE")
+plot(tri_E2_model, type="infoSE")
+plot(tri_E3_model, type="infoSE")
+plot(tri_E4_model, type="infoSE")
+
+plot(tri_C1_model, type="infoSE")
+plot(tri_C2_model, type="infoSE")
