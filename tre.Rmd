@@ -25,7 +25,7 @@ library(psych)
 library(tidyverse)
 library(readxl)
 library(expss)
-library(stats)
+#library(stats)
 library(mirt)
 ```
 
@@ -146,177 +146,9 @@ df1$tre_cod_40 <- ifelse(df1$tre_40 == 1 | df1$tre_40 == 2, 1, 0)
 names(df1) %>% as.data.frame()
 ```
 
-# Conferir respostas corretas com TRI
-```{r}
-# Gerar modelos
-
-## Rasch
-mod_rasch <- 
-df1 %>% select(85:123) %>% 
-  mirt(1, itemtype = "Rasch")
-
-## 2 parâmetros
-mod_2PL <- df2 %>% select(85:123) %>% 
-  mirt(1,itemtype = "2PL")
-
-# Índices de ajuste ao modelo
-itemfit(mod_rasch,fit_stats = 'infit')
-itemfit(mod_2PL,fit_stats = 'infit')
-
-# Parâmetros dos itens
-coef(mod_rasch, simplify=TRUE,IRTpars=TRUE)
-coef(mod_2PL, simplify=TRUE,IRTpars=TRUE)
-
-# plot do modelo
-plot(mod_rasch)
-plot(mod_2PL)
-
-# CCI de todos os itens
-plot(mod_rasch,type="trace")
-plot(mod_2PL,type="trace")
-
-# Curva de informação de todos os itens
-plot(mod_rasch,type="infotrace")
-plot(mod_2PL,type="infotrace")
-
-# Curva de informação e erro
-plot(mod_rasch, type="infoSE")
-plot(mod_2PL, type="infoSE")
-
-
-# colnames(df1[,85:123]) <- c("re01",
-#                             "re02",
-#                             "re03",
-#                             "re04",
-#                             "re05",
-#                             "re06",
-#                             "re07",
-#                             "re08",
-#                             "re10",
-#                             "re11",
-#                             "re12",
-#                             "re13",
-#                             "re14",
-#                             "re15",
-#                             "re16",
-#                             "re17",
-#                             "re18",
-#                             "re19",
-#                             "re20",
-#                             "re21",
-#                             "re22",
-#                             "re23",
-#                             "re24",
-#                             "re25",
-#                             "re26",
-#                             "re27",
-#                             "re28",
-#                             "re29",
-#                             "re30",
-#                             "re31",
-#                             "re32",
-#                             "re33",
-#                             "re34",
-#                             "re35",
-#                             "re36",
-#                             "re37",
-#                             "re38",
-#                             "re39",
-#                             "re40")
-
-names(df1)
-# comparar modelos
-# Olhar se a diferença entre os qui-quadrados é significativa
-# Se for, o menor valor de AIC é o modelo mais ajustado.
-anova(mod_rasch,mod_2PL)
-
-# Avaliar o modelo pelo M2 (M ao quadrado), que mostra RAMSEA, SRMSR, TLE e CFI
-
-## Como essa análise é mais demorada, compensa colocar mais processadores no computdor...
-mirtCluster() # acelerador do processamento (passa a usar mais processadores do computador)
-
-M2(mod_rasch)
-M2(mod_2PL)
-
-# para observar visualmente o índice de ajuste, rodar novamente os modelos, pedindo os erros
-
-mod_rasch <- 
-df1 %>% select(85:123) %>% 
-  mirt(1, itemtype = "Rasch", SE=TRUE)
-
-mod_2PL <- df2 %>% select(85:123) %>% 
-  mirt(1,itemtype = "2PL", SE=TRUE)
-
-plot(mod_rasch,MI=200)
-plot(mod_2PL,MI=200)
-# fatores obtidos
-summary(mod_rasch)
-summary(mod_2PL)
-```
-
-
-
 # Análise fatorial
 ```{r}
-# Rodei a análise abaixo para checar se o problema estava na matriz de correlações.
-tet_matrix <- df1 %>% select(85:123) %>% tetrachoric(.)
-# E, sim, está... aparentemente, não està se formando o par 0 e 0 entre as colunas.... por isso a correlação tetracórica não é computada. 
 
-# uma solução foi eliminar itens muito fáceis, com índice de acerto superior a 95%
-janitor::tabyl(df1$tre_cod_01)
-janitor::tabyl(df1$tre_cod_02)
-janitor::tabyl(df1$tre_cod_03)
-janitor::tabyl(df1$tre_cod_04)
-janitor::tabyl(df1$tre_cod_05)
-janitor::tabyl(df1$tre_cod_06)
-janitor::tabyl(df1$tre_cod_07)
-janitor::tabyl(df1$tre_cod_08)
-janitor::tabyl(df1$tre_cod_09)
-janitor::tabyl(df1$tre_cod_10)
-janitor::tabyl(df1$tre_cod_11)
-janitor::tabyl(df1$tre_cod_12)
-janitor::tabyl(df1$tre_cod_13)
-janitor::tabyl(df1$tre_cod_14)
-janitor::tabyl(df1$tre_cod_15)
-janitor::tabyl(df1$tre_cod_16)
-janitor::tabyl(df1$tre_cod_17)
-janitor::tabyl(df1$tre_cod_18)
-janitor::tabyl(df1$tre_cod_19)
-janitor::tabyl(df1$tre_cod_20)
-janitor::tabyl(df1$tre_cod_21)
-janitor::tabyl(df1$tre_cod_22)
-janitor::tabyl(df1$tre_cod_23)
-janitor::tabyl(df1$tre_cod_24)
-janitor::tabyl(df1$tre_cod_25)
-janitor::tabyl(df1$tre_cod_26)
-janitor::tabyl(df1$tre_cod_27)
-janitor::tabyl(df1$tre_cod_28)
-janitor::tabyl(df1$tre_cod_29)
-janitor::tabyl(df1$tre_cod_30)
-janitor::tabyl(df1$tre_cod_31)
-janitor::tabyl(df1$tre_cod_32)
-janitor::tabyl(df1$tre_cod_33)
-janitor::tabyl(df1$tre_cod_34)
-janitor::tabyl(df1$tre_cod_35)
-janitor::tabyl(df1$tre_cod_36)
-janitor::tabyl(df1$tre_cod_37)
-janitor::tabyl(df1$tre_cod_38)
-janitor::tabyl(df1$tre_cod_39)
-janitor::tabyl(df1$tre_cod_40)
-
-# esses itens foram: 2,12,20,25,30,34,36,40
-# Então rodar EFA
-tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric(correct=0)
-scree(tet_matrix$rho, pc = FALSE) # 4 fatores
-fa.parallel(tet_matrix$rho,n.obs = 480) # 10 fatores
-
-factor_analysis <- tet_matrix$rho %>% fa(nfactors = 4,
-                              n.obs = 480,
-                              fm = "pa",
-                              rotate = "geominQ")
-factor_analysis$loadings
-
-#==========
 df1 %>% select(c(85:123)) %>% scree(pc = FALSE)
 
 efa1 <- df1 %>% select(85:123) %>% fa(nfactors = 2,
@@ -659,3 +491,95 @@ correlações <- corr.test(df1[124:130])
 correlações$stars
 ```
 
+# Análise com TRI
+```{r}
+# Gerar modelos
+
+# df1 %>% select(86,93,103,107,108,112,113,115,117,122,123) # Fator 1 - Ineficazes
+# df1 %>% select(87,95,96,100,101,104,105,109,120,121) # Fator 2 - Eficazes
+
+## Rasch
+mod_ine_rasch <- 
+  df1 %>% select(86,93,103,107,108,112,113,115,117,122,123) %>% 
+  mirt(1, itemtype = "Rasch", SE = TRUE)
+
+mod_efi_rasch <- 
+  df1 %>% select(87,95,96,100,101,104,105,109,120,121) %>% 
+  mirt(1, itemtype = "Rasch", SE = TRUE)
+
+## 2 parâmetros
+
+mod_ine_2PL <- 
+  df1 %>% select(86,93,103,107,108,112,113,115,117,122,123) %>% 
+  mirt(1, itemtype = "2PL", SE = TRUE)
+
+mod_efi_2PL <- 
+  df1 %>% select(87,95,96,100,101,104,105,109,120,121) %>% 
+  mirt(1, itemtype = "2PL", SE = TRUE)
+
+# Índices de ajuste aos modelos
+itemfit(mod_ine_rasch,fit_stats = 'infit')
+itemfit(mod_efi_rasch,fit_stats = 'infit')
+itemfit(mod_ine_2PL,fit_stats = 'infit')
+itemfit(mod_efi_2PL,fit_stats = 'infit')
+
+# Parâmetros dos itens
+coef(mod_ine_rasch, simplify=TRUE,IRTpars=TRUE)
+coef(mod_efi_rasch, simplify=TRUE,IRTpars=TRUE)
+coef(mod_ine_2PL, simplify=TRUE,IRTpars=TRUE)
+coef(mod_efi_2PL, simplify=TRUE,IRTpars=TRUE)
+
+# plot do modelo
+plot(mod_ine_rasch)
+plot(mod_efi_rasch)
+plot(mod_ine_2PL)
+plot(mod_efi_2PL)
+
+# CCI de todos os itens
+plot(mod_ine_rasch,type="trace")
+plot(mod_efi_rasch,type="trace")
+plot(mod_ine_2PL,type="trace")
+plot(mod_efi_2PL,type="trace")
+
+# Curva de informação de todos os itens
+plot(mod_ine_rasch,type="infotrace")
+plot(mod_efi_rasch,type="infotrace")
+plot(mod_ine_2PL,type="infotrace")
+plot(mod_efi_2PL,type="infotrace")
+
+# Curva de informação e erro
+plot(mod_ine_rasch, type="infoSE")
+plot(mod_efi_rasch, type="infoSE")
+plot(mod_ine_2PL, type="infoSE")
+plot(mod_efi_2PL, type="infoSE")
+
+names(df1)
+# comparar modelos
+# Olhar se a diferença entre os qui-quadrados é significativa
+# Se for, o menor valor de AIC é o modelo mais ajustado.
+anova(mod_ine_rasch,mod_ine_2PL)
+anova(mod_efi_rasch,mod_efi_2PL)
+
+# Avaliar o modelo pelo M2 (M ao quadrado), que mostra RAMSEA, SRMSR, TLE e CFI
+
+## Como essa análise é mais demorada, compensa colocar mais processadores no computdor...
+mirtCluster() # acelerador do processamento (passa a usar mais processadores do computador)
+
+M2(mod_ine_rasch)
+M2(mod_efi_rasch)
+M2(mod_ine_2PL)
+M2(mod_efi_2PL)
+
+# para observar visualmente o índice de ajuste
+
+plot(mod_ine_rasch, MI=200)
+plot(mod_efi_rasch, MI=200)
+plot(mod_ine_2PL, MI=200)
+plot(mod_efi_2PL, MI=200)
+
+# fatores obtidos
+summary(mod_ine_rasch)
+summary(mod_efi_rasch)
+summary(mod_ine_2PL)
+summary(mod_efi_2PL)
+```
