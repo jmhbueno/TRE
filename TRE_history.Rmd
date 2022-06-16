@@ -1,0 +1,523 @@
+---
+title: "TRE"
+author: "Maurício Bueno"
+date: '2022-06-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+df1 %>% select(tre_cod_01:tre_cod_08) %>% janitor::tabyl()
+janitor::tabyl(df1$tre_cod_01)
+janitor::tabyl(df1$tre_cod_02)
+janitor::tabyl(df1$tre_cod_03)
+janitor::tabyl(df1$tre_cod_04)
+janitor::tabyl(df1$tre_cod_05)
+janitor::tabyl(df1$tre_cod_06)
+janitor::tabyl(df1$tre_cod_07)
+janitor::tabyl(df1$tre_cod_08)
+janitor::tabyl(df1$tre_cod_09)
+janitor::tabyl(df1$tre_cod_10)
+janitor::tabyl(df1$tre_cod_11)
+janitor::tabyl(df1$tre_cod_12)
+janitor::tabyl(df1$tre_cod_13)
+janitor::tabyl(df1$tre_cod_14)
+janitor::tabyl(df1$tre_cod_15)
+janitor::tabyl(df1$tre_cod_16)
+janitor::tabyl(df1$tre_cod_17)
+janitor::tabyl(df1$tre_cod_18)
+janitor::tabyl(df1$tre_cod_19)
+janitor::tabyl(df1$tre_cod_20)
+janitor::tabyl(df1$tre_cod_21)
+janitor::tabyl(df1$tre_cod_22)
+janitor::tabyl(df1$tre_cod_23)
+janitor::tabyl(df1$tre_cod_24)
+janitor::tabyl(df1$tre_cod_25)
+janitor::tabyl(df1$tre_cod_26)
+janitor::tabyl(df1$tre_cod_27)
+janitor::tabyl(df1$tre_cod_28)
+janitor::tabyl(df1$tre_cod_29)
+janitor::tabyl(df1$tre_cod_30)
+janitor::tabyl(df1$tre_cod_31)
+janitor::tabyl(df1$tre_cod_32)
+janitor::tabyl(df1$tre_cod_33)
+janitor::tabyl(df1$tre_cod_34)
+janitor::tabyl(df1$tre_cod_35)
+janitor::tabyl(df1$tre_cod_36)
+janitor::tabyl(df1$tre_cod_37)
+janitor::tabyl(df1$tre_cod_38)
+janitor::tabyl(df1$tre_cod_39)
+janitor::tabyl(df1$tre_cod_40)
+df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% scree(pc = FALSE)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric(.)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric(correct = 0,25)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric(correct = 0)
+scree(tet_matrix, pc = FALSE)
+scree(tet_matrix$rho, pc = FALSE, n.obs = 480)
+scree(tet_matrix$rho, pc = FALSE)
+factor_analysis <- tet_matrix %>% fa(nfactors = 4,
+n.obs = 480,
+fm = "pa",
+rotate = "geominQ")
+factor_analysis <- tet_matrix$rho %>% fa(nfactors = 4,
+n.obs = 480,
+fm = "pa",
+rotate = "geominQ")
+tet_matrix$rho %>% fa(nfactors = 4,
+n.obs = 480,
+fm = "pa",
+rotate = "geominQ")
+factor_analysis$loadings %>% kableExtra::knitr()
+factor_analysis$loadings %>% kable::knitr()
+factor_analysis$loadings %>% knitr::kable()
+factor_analysis$loadings
+library(psych)
+library(tidyverse)
+tet_matrix <- df1 %>% select(85:123) %>% tetrachoric()
+tet_matrix$rho
+df1 %>% select(85:123) %>% tetrachoric(correct = 0)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric(correct = 0)
+scree(tet_matrix$rho, pc = FALSE)
+df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% scree(pc = FALSE)
+?scree()
+scree(tet_matrix$rho, pc = FALSE)
+df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% scree(pc = FALSE)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric()
+scree(tet_matrix$rho, pc = FALSE)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric(correct = 0)
+scree(tet_matrix$rho, pc = FALSE)
+factor_analysis <- tet_matrix$rho %>% fa(nfactors = 4,
+n.obs = 480,
+fm = "pa",
+rotate = "geominQ")
+factor_analysis$loadings
+factor_analysis$loadings %>% kable::knitr()
+factor_analysis$loadings %>% knitr::kable()
+tet_matrix <- df1 %>% select(85:123) %>% tetrachoric(correct = 0.1)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric(correct = 0.1)
+scree(tet_matrix$rho, pc = FALSE)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric()
+scree(tet_matrix$rho, pc = FALSE)
+factor_analysis <- tet_matrix$rho %>% fa(nfactors = 4,
+n.obs = 480,
+fm = "pa",
+rotate = "geominQ")
+factor_analysis$loadings
+fa.parallel(tet_matrix$rho,n.obs = 480)
+tet_matrix <- df1 %>% select(85:123) %>% tetrachoric(correct = 0)
+scree(tet_matrix$rho,pc=FALSE) # 5 fatores
+fa1 <- tet_matrix$rho %>% fa(nfactors = 5,n.obs = 480,fm = "pa",rotate = "geominQ")
+fa1$loadings
+tet_matrix <- df1 %>% select(85:123) %>% tetrachoric(correct = 0,1)
+tet_matrix <- df1 %>% select(85:123) %>% tetrachoric(correct = 0,1)
+tet_matrix <- df1 %>% select(85:123) %>% tetrachoric(correct = 0.1)
+tet_matrix <- df1 %>% select(85:123) %>% tetrachoric(correct = 0)
+tet_matrix <- df1 %>% select(85:123) %>% tetrachoric()
+scree(tet_matrix$rho,pc=FALSE) # 5 fatores
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric()
+scree(tet_matrix$rho, pc = FALSE) # 4 fatores
+fa.parallel(tet_matrix$rho,n.obs = 480) # 10 fatores
+library(psych)
+library(tidyverse)
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric()
+scree(tet_matrix$rho, pc = FALSE) # 4 fatores
+fa.parallel(tet_matrix$rho,n.obs = 480) # 10 fatores
+factor_analysis <- tet_matrix$rho %>% fa(nfactors = 4,
+n.obs = 480,
+fm = "pa",
+rotate = "geominQ")
+factor_analysis$loadings
+# uma solução foi eliminar itens muito fáceis, com índice de acerto superior a 95%
+janitor::tabyl(df1$tre_cod_01)
+janitor::tabyl(df1$tre_cod_02)
+df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric()
+# esses itens foram: 2,12,20,25,30,34,36,40
+# Então rodar EFA
+tet_matrix <- df1 %>% select(c(85,87:95,97:103,105:113,115:117,119,121,122)) %>% tetrachoric(correct=0)
+#==========
+df1 %>% select(c(85:123)) %>% scree(pc = FALSE)
+efa1 <- df1 %>% select(85:123) %>% fa(nfactors = 2,
+cor = "tet",
+fm = "pa",
+rotate = "geominQ")
+efa1
+df1 %>% select(tre_cod_01,
+tre_cod_02,
+tre_cod_03,
+tre_cod_05,
+tre_cod_10,
+tre_cod_11,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_36,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>% scree(pc=FALSE)
+efa2 <- df1 %>% select(tre_cod_01,
+tre_cod_03,
+tre_cod_05,
+tre_cod_10,
+tre_cod_11,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_36,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>%
+fa(nfactors = 2,
+cor = "tet",
+fm = "pa",
+rotate = "geominQ")
+efa2
+df1 %>% select(tre_cod_01,
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_11,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_36,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>% scree(pc=FALSE)
+efa3 <- df1 %>% select(tre_cod_01,
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_11,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_36,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>%
+fa(nfactors = 2,
+cor = "tet",
+fm = "pa",
+rotate = "geominQ")
+efa3$loadings
+df1 %>% select(
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_11,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>% scree(pc=FALSE)
+efa4 <- df1 %>% select(
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_11,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>%
+fa(nfactors = 2,
+cor = "tet",
+fm = "pa",
+rotate = "geominQ")
+efa4$loadings
+df1 %>% select(
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>% scree(pc=FALSE)
+efa4 <- df1 %>% select(
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>%
+fa(nfactors = 2,
+cor = "tet",
+fm = "pa",
+rotate = "geominQ")
+efa4 <- df1 %>% select(
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_11,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>%
+fa(nfactors = 2,
+cor = "tet",
+fm = "pa",
+rotate = "geominQ")
+efa5 <- df1 %>% select(
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_19,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>%
+fa(nfactors = 2,
+cor = "tet",
+fm = "pa",
+rotate = "geominQ")
+efa5$loadings
+df1 %>% select(
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>% scree(pc=FALSE)
+efa6 <- df1 %>% select(
+tre_cod_02,
+tre_cod_03,
+tre_cod_10,
+tre_cod_12,
+tre_cod_13,
+tre_cod_17,
+tre_cod_18,
+tre_cod_20,
+tre_cod_21,
+tre_cod_22,
+tre_cod_24,
+tre_cod_25,
+tre_cod_26,
+tre_cod_29,
+tre_cod_30,
+tre_cod_32,
+tre_cod_34,
+tre_cod_37,
+tre_cod_38,
+tre_cod_39,
+tre_cod_40) %>%
+fa(nfactors = 2,
+cor = "tet",
+fm = "pa",
+rotate = "geominQ")
+efa6$loadings
+df1 %>% names() %>% as.data.frame()
+# Fidedignidade do fator 2 (Estratégias Eficazes)
+df1 %>% select(87,95,96,100,101,104,105,109,120,121) %>% omega()
+?omega()
+# Fidedignidade do fator 2 (Estratégias Eficazes)
+df1 %>% select(87,95,96,100,101,104,105,109,120,121) %>% omega(poly = TRUE)
+# Fidedignidade do fator 1 (Estratégias Ineficazes)
+df1 %>% select(86,93,103,107,708,112,113,115,117,122,123) %>% omega(poly = TRUE)
+# Fidedignidade do fator 1 (Estratégias Ineficazes)
+df1 %>% select(86,93,103,107,108,112,113,115,117,122,123) %>% omega(poly = TRUE)
+efa6$loadings
+glimpse(df1)
+count(df1,tre_01) %>% mutate(porc = n/sum(n)*100)
+names(df1)
+names(df1) %>% as.data.frame()
+df1$DASS_est <- df1 %>% select(64,69,71,74,75,77,81) %>% rowMeans()
+df1$DASS_ans <- df1 %>% select(65,67,70,72,78,82,83) %>% rowMeans()
+df1$DASS_dep <- df1 %>% select(66,68,73,76,79,80,84) %>% rowMeans()
+names(df1) %>% as.data.frame()
+df1 %>% select(64,69,71,74,75,77,81) %>% omega(poly=TRUE)
+df1 %>% select(65,67,70,72,78,82,83) %>% omega(poly=TRUE)
+df1 %>% select(66,68,73,76,79,80,84) %>% omega(poly=TRUE)
+names(df1) %>% as.data.frame()
+df1 %>% select(QRE_01,QRE_03,QRE_05,QRE_07,QRE_08,QRE_10)
+df1$QRE_reava <- df1 %>% select(QRE_01,QRE_03,QRE_05,QRE_07,QRE_08,QRE_10) %>% rowMeans()
+# Fator: Supressão
+df1$QRE_supre <- df1 %>% select(QRE_02,QRE_04,QRE_06,QRE_09) %>% rowMeans()
+df1 %>% select(QRE_01,QRE_03,QRE_05,QRE_07,QRE_08,QRE_10) %>% omega(poly = TRUE)
+df1 %>% select(QRE_02,QRE_04,QRE_06,QRE_09) %>% omega(poly = TRUE)
+names(df1) %>% as.data.frame()
+# Fator 1 (Estratégias Ineficazes)
+df1$TRE_ine <- df1 %>% select(86,93,103,107,108,112,113,115,117,122,123) %>% rowSums()
+# Fator 2 (Estratégias Eficazes)
+df1$TRE_efi <- df1 %>% select(87,95,96,100,101,104,105,109,120,121) %>% rowSums()
+names(df1) %>% as.data.frame()
+correlações <- corr.test(df1[124:130])
+correlações$stars
+library(mirt)
+plot(mod_2PL,type="trace")
