@@ -25,8 +25,10 @@ library(psych)
 library(tidyverse)
 library(readxl)
 library(expss)
-#library(stats)
+library(stats)
 library(mirt)
+library(knitr)
+# library(pander)
 ```
 
 # Importar o banco de dados
@@ -488,7 +490,7 @@ df1$TRE_efi <- df1 %>% select(87,95,96,100,101,104,105,109,120,121) %>% rowSums(
 names(df1) %>% as.data.frame()
 correlações <- corr.test(df1[124:130])
 
-correlações$stars
+correlações$stars %>% knitr::kable()
 ```
 
 # Análise com TRI
@@ -498,7 +500,7 @@ correlações$stars
 # df1 %>% select(86,93,103,107,108,112,113,115,117,122,123) # Fator 1 - Ineficazes
 # df1 %>% select(87,95,96,100,101,104,105,109,120,121) # Fator 2 - Eficazes
 
-## Rasch
+## Rasch (parâmetro b estimado e parâmetro a constante e igual a 1)
 mod_ine_rasch <- 
   df1 %>% select(86,93,103,107,108,112,113,115,117,122,123) %>% 
   mirt(1, itemtype = "Rasch", SE = TRUE)
@@ -507,7 +509,7 @@ mod_efi_rasch <-
   df1 %>% select(87,95,96,100,101,104,105,109,120,121) %>% 
   mirt(1, itemtype = "Rasch", SE = TRUE)
 
-## 2 parâmetros
+## 2 parâmetros (estima tanto o parâmetro b quanto o a)
 
 mod_ine_2PL <- 
   df1 %>% select(86,93,103,107,108,112,113,115,117,122,123) %>% 
@@ -518,16 +520,22 @@ mod_efi_2PL <-
   mirt(1, itemtype = "2PL", SE = TRUE)
 
 # Índices de ajuste aos modelos
-itemfit(mod_ine_rasch,fit_stats = 'infit')
+itemfit(mod_ine_rasch,fit_stats = 'infit') 
 itemfit(mod_efi_rasch,fit_stats = 'infit')
-itemfit(mod_ine_2PL,fit_stats = 'infit')
-itemfit(mod_efi_2PL,fit_stats = 'infit')
+itemfit(mod_ine_2PL,fit_stats = 'infit') %>% select(infit, outfit) %>% summary() %>% kable()
+itemfit(mod_efi_2PL,fit_stats = 'infit') %>% select(infit, outfit) %>% summary() %>% kable()
 
 # Parâmetros dos itens
 coef(mod_ine_rasch, simplify=TRUE,IRTpars=TRUE)
 coef(mod_efi_rasch, simplify=TRUE,IRTpars=TRUE)
-coef(mod_ine_2PL, simplify=TRUE,IRTpars=TRUE)
-coef(mod_efi_2PL, simplify=TRUE,IRTpars=TRUE)
+coef_tri_ine <- coef(mod_ine_2PL, simplify=TRUE,IRTpars=TRUE)
+coef_tri_efi <- coef(mod_efi_2PL, simplify=TRUE,IRTpars=TRUE)
+
+coef_tri_ine$items %>% as.data.frame() %>% select(1:2) %>% kable()
+coef_tri_efi$items %>% as.data.frame() %>% select(1:2) %>% kable()
+
+coef_tri_ine$items %>% as.data.frame() %>% select(1:2) %>% summary() %>% kable()
+coef_tri_efi$items %>% as.data.frame() %>% select(1:2) %>% summary() %>% kable()
 
 # plot do modelo
 plot(mod_ine_rasch)
@@ -557,8 +565,8 @@ names(df1)
 # comparar modelos
 # Olhar se a diferença entre os qui-quadrados é significativa
 # Se for, o menor valor de AIC é o modelo mais ajustado.
-anova(mod_ine_rasch,mod_ine_2PL)
-anova(mod_efi_rasch,mod_efi_2PL)
+anova(mod_ine_rasch,mod_ine_2PL) %>% kable()
+anova(mod_efi_rasch,mod_efi_2PL) %>% kable()
 
 # Avaliar o modelo pelo M2 (M ao quadrado), que mostra RAMSEA, SRMSR, TLE e CFI
 
@@ -583,3 +591,51 @@ summary(mod_efi_rasch)
 summary(mod_ine_2PL)
 summary(mod_efi_2PL)
 ```
+
+# exportar arquivo para csv
+```{r}
+write.csv(df1, "df1.csv")
+```
+
+# Estatísticas descritivas para descrição dos participantes
+
+```{r}
+names(df1) %>% as.data.frame()
+
+install.packages("janitor")
+library(janitor)
+
+
+
+df1 %>%          
+  tabyl(sexo) %>%
+  adorn_totals() %>%
+  mutate("%" = percent*100) %>%
+  kable() 
+
+df1 %>%          
+  tabyl(cor) %>%
+  adorn_totals() %>%
+  mutate("%" = percent*100) %>%
+  kable() 
+
+df1$escolaridade[df1$escolaridade == "Fundamental completo"] <-"Ensino fundamental"
+df1$escolaridade[df1$escolaridade == "Fundamental incompleto"] <-"Ensino fundamental"
+df1$escolaridade[df1$escolaridade == "Médio completo"] <-"Ensino médio"
+df1$escolaridade[df1$escolaridade == "Sem escolaridade"] <-"Ensino fundamental"
+df1$escolaridade[df1$escolaridade == "Sem instrução"] <-"Ensino fundamental"
+df1$escolaridade[df1$escolaridade == "Superior completo"] <-"Ensino superior"
+
+
+df1 %>%          
+  tabyl(escolaridade) %>%
+  adorn_totals() %>%
+  mutate("%" = percent*100) %>%
+  kable() 
+
+round(mean(df1$idade, na.rm = TRUE),digits = 2)
+round(sd(df1$idade, na.rm = TRUE),digits = 2)
+
+round(describe(df1$idade),digits = 2) %>% kable() 
+```
+
